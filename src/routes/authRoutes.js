@@ -47,7 +47,7 @@ router.post('/login', async (req, res) => {
             existingAuthUser.tokens = existingAuthUser.tokens.concat({ token: token });
             await existingAuthUser.save();
             // Notify the logging service about the login event
-            await axios.post('http://localhost:5003/log', { level: 'info', message: `User ${userId} logged in` });
+            await axios.post('https://logging-services.onrender.com/log', { level: 'info', message: `User ${userId} logged in` });
             res.cookie('token', token, { httpOnly: true, maxAge: 3600000 }); // 1 hour expiration
             res.json({ token }); 
         } else {
@@ -67,7 +67,7 @@ router.post('/logout/:id', async (req, res) => {
         res.clearCookie('token');
         const userId = req.params.id;
         // Notify the logging service about the logout event
-        await axios.post('http://localhost:5003/log', { level: 'info', message: `User ${userId} logged out`});
+        await axios.post('https://logging-services.onrender.com/log', { level: 'info', message: `User ${userId} logged out`});
         res.status(200).json({ message: 'Logged out successfully' });
     } catch (error) {
         console.error(error);

@@ -89,7 +89,7 @@ router2.post('/change-password', async (req, res) => {
         // Update the user's password in the database
         user.user_password = hashedNewPassword;
         await user.save();
-        await axios.post('http://localhost:5003/log', { level: 'info', message: `User ${userID} Changed his password` });
+        await axios.post('https://logging-services.onrender.com/log', { level: 'info', message: `User ${userID} Changed his password` });
         
         const mailOptions = {
             from: process.env.SMTP_MAIL,
@@ -264,7 +264,7 @@ router2.post('/change-forgotten-password', async (req, res) => {
         user.otp = null; 
         user.otpExpiry= null;
         await user.save();
-        await axios.post('http://localhost:5003/log', { level: 'info', message: `User ${userID} forgotten password changed` });
+        await axios.post('https://logging-services.onrender.com/log', { level: 'info', message: `User ${userID} forgotten password changed` });
         
         const mailOptions = {
             from: process.env.SMTP_MAIL,
